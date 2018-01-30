@@ -1,8 +1,10 @@
 #include <iostream>
 #include <string>
 #include <cstdio>
+#include <experimental/filesystem>
 
 using namespace std;
+namespace fs = std::experimental::filesystem::v1;
 
 template <size_t s>
 int selector(string (&list)[s]){
@@ -29,6 +31,7 @@ int selector(string (&list)[s]){
 }
 
 int main(){
-	string tmp[5] = {"one", "two", "three", "four", "five"};
-	cout << tmp[selector(tmp)] << endl;
+	for (auto & p: fs::directory_iterator("/usr/share/applications/")){
+		cout << p << endl;
+	}
 }
