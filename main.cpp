@@ -3,15 +3,15 @@
 #include <fstream>
 #include <string>
 #include <cstdio>
+#include <program.hpp>
 #include <experimental/filesystem>
 
 using namespace std;
 namespace fs = std::experimental::filesystem::v1;
 
-template <size_t s>
-int selector(string (&list)[s]){
-	for (int i = 0; i < s; i++){
-		cout << i+1 << ": " << list[i] << endl;
+program selector(vector<program> list){
+	for (int i = 0; i < list.size(); i++){
+		cout << i+1 << ": " << list[i].getName() << endl;
 	}
 
 	int i;
@@ -22,18 +22,21 @@ int selector(string (&list)[s]){
 		cout << "select: ";
 		scanf("%d", &i);
 
-		if(0 < i && i <= s){
+		if(0 < i && i <= list.size()){
 			loop = false;
 		
 		}else{
 			cout << endl << "invalid input" << endl;
 		}
 	}
-	return i-1;
+	return list[i-1];
 }
 
 int main(){
 	ifstream inFile;
+
+	vector<program> applications;
+
 	for (auto & p: fs::directory_iterator("/usr/share/applications/")){
 		string exec, name, line;
 		
@@ -50,11 +53,14 @@ int main(){
 				}
 
 				if(!name.empty() && !exec.empty()){
-					cout << name << ": " << exec << endl;
+					applications.push_back(program(name, exec));
 					break;
 				}
 			}
 		}
 		inFile.close();
 	}
+	
+	selector(applications);
+
 }
