@@ -37,7 +37,7 @@ int main(){
 
 	vector<program> applications;
 
-	for (auto & p: fs::directory_iterator("/usr/share/applications/")){
+	for (auto & p: fs::directory_iterator("/usr/share/applications")){
 		string exec, name, line;
 		
 		inFile.open(p.path());
@@ -61,6 +61,6 @@ int main(){
 		inFile.close();
 	}
 	
-	selector(applications);
+	selector(applications).call();
 
 }
